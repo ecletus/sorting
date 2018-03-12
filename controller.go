@@ -19,7 +19,7 @@ func updatePosition(context *admin.Context) {
 			if pos, err := strconv.Atoi(context.Request.Form.Get("to")); err == nil {
 				var count int
 				if _, ok := result.(sortingDescInterface); ok {
-					var result = context.Resource.NewStruct()
+					var result = context.Resource.NewStruct(context.Site)
 					context.GetDB().Set("l10n:mode", "locale").Order("position DESC", true).First(result)
 					count = result.(sortingInterface).GetPosition()
 					pos = count - pos + 1
@@ -70,7 +70,7 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 						if total, ok := db.Get("sorting_total_count"); ok {
 							count = total.(int)
 						} else {
-							var result = res.NewStruct()
+							var result = res.NewStruct(ctx.Site)
 							db.New().Order("position DESC", true).First(result)
 							count = result.(sortingInterface).GetPosition()
 							db.InstantSet("sorting_total_count", count)

@@ -8,6 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
 	"github.com/qor/publish"
+	"github.com/qor/qor"
 )
 
 type sortingInterface interface {
@@ -45,7 +46,9 @@ type SortingDESC struct {
 func (SortingDESC) SortingDesc() {}
 
 func init() {
-	admin.RegisterViewPath("github.com/qor/sorting/views")
+	qor.IfDev(func() {
+		admin.RegisterViewPath("github.com/qor/sorting/views")
+	})
 }
 
 func newModel(value interface{}) interface{} {
