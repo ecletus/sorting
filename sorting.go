@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/publish"
 )
 
@@ -47,7 +47,7 @@ func newModel(value interface{}) interface{} {
 	return reflect.New(reflect.Indirect(reflect.ValueOf(value)).Type()).Interface()
 }
 
-func move(db *gorm.DB, value sortingInterface, pos int) (err error) {
+func move(db *aorm.DB, value sortingInterface, pos int) (err error) {
 	var startedTransaction bool
 	var tx = db.Set("publish:publish_event", true)
 	if t := tx.Begin(); t.Error == nil {
@@ -64,15 +64,15 @@ func move(db *gorm.DB, value sortingInterface, pos int) (err error) {
 
 	currentPos := value.GetPosition()
 
-	var results *gorm.DB
+	var results *aorm.DB
 	if pos > 0 {
 		results = tx.Model(newModel(value)).
 			Where("position > ? AND position <= ?", currentPos, currentPos+pos).
-			UpdateColumn("position", gorm.Expr("position - ?", 1))
+			UpdateColumn("position", aorm.Expr("position - ?", 1))
 	} else {
 		results = tx.Model(newModel(value)).
 			Where("position < ? AND position >= ?", currentPos, currentPos+pos).
-			UpdateColumn("position", gorm.Expr("position + ?", 1))
+			UpdateColumn("position", aorm.Expr("position + ?", 1))
 	}
 
 	if err = results.Error; err == nil {
@@ -81,7 +81,7 @@ func move(db *gorm.DB, value sortingInterface, pos int) (err error) {
 			rowsAffected = -rowsAffected
 		}
 		value.SetPosition(currentPos + rowsAffected)
-		err = tx.Model(value).UpdateColumn("position", gorm.Expr("position + ?", rowsAffected)).Error
+		err = tx.Model(value).UpdateColumn("position", aorm.Expr("position + ?", rowsAffected)).Error
 	}
 
 	// Create Publish Event
@@ -97,7 +97,7 @@ func move(db *gorm.DB, value sortingInterface, pos int) (err error) {
 	return err
 }
 
-func createPublishEvent(db *gorm.DB, value interface{}) (err error) {
+func createPublishEvent(db *aorm.DB, value interface{}) (err error) {
 	// Create Publish Event in Draft Mode
 	if publish.IsDraftMode(db) && publish.IsPublishableModel(value) {
 		scope := db.NewScope(value)
@@ -123,16 +123,16 @@ func createPublishEvent(db *gorm.DB, value interface{}) (err error) {
 }
 
 // MoveUp move position up
-func MoveUp(db *gorm.DB, value sortingInterface, pos int) error {
+func MoveUp(db *aorm.DB, value sortingInterface, pos int) error {
 	return move(db, value, -pos)
 }
 
 // MoveDown move position down
-func MoveDown(db *gorm.DB, value sortingInterface, pos int) error {
+func MoveDown(db *aorm.DB, value sortingInterface, pos int) error {
 	return move(db, value, pos)
 }
 
 // MoveTo move position to
-func MoveTo(db *gorm.DB, value sortingInterface, pos int) error {
+func MoveTo(db *aorm.DB, value sortingInterface, pos int) error {
 	return move(db, value, pos-value.GetPosition())
 }

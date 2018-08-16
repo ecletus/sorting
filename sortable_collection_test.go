@@ -5,12 +5,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/sorting"
 )
 
 type ColorVariation struct {
-	gorm.Model
+	aorm.Model
 	Code string
 }
 
@@ -28,9 +28,9 @@ func checkOrder(results interface{}, order []string) error {
 
 func TestSortSlice(t *testing.T) {
 	colorVariations := []ColorVariation{
-		{Model: gorm.Model{ID: 1}, Code: "1"},
-		{Model: gorm.Model{ID: 2}, Code: "2"},
-		{Model: gorm.Model{ID: 3}, Code: "3"},
+		{Model: aorm.Model{ID: 1}, Code: "1"},
+		{Model: aorm.Model{ID: 2}, Code: "2"},
+		{Model: aorm.Model{ID: 3}, Code: "3"},
 	}
 
 	collectionSorting := sorting.SortableCollection{PrimaryKeys: []string{"3", "1", "2"}}
@@ -43,9 +43,9 @@ func TestSortSlice(t *testing.T) {
 
 func TestSort(t *testing.T) {
 	colorVariations := &[]ColorVariation{
-		{Model: gorm.Model{ID: 1}, Code: "1"},
-		{Model: gorm.Model{ID: 2}, Code: "2"},
-		{Model: gorm.Model{ID: 3}, Code: "3"},
+		{Model: aorm.Model{ID: 1}, Code: "1"},
+		{Model: aorm.Model{ID: 2}, Code: "2"},
+		{Model: aorm.Model{ID: 3}, Code: "3"},
 	}
 
 	collectionSorting := sorting.SortableCollection{PrimaryKeys: []string{"3", "1", "2"}}
@@ -58,9 +58,9 @@ func TestSort(t *testing.T) {
 
 func TestSortPointer(t *testing.T) {
 	colorVariations := &[]*ColorVariation{
-		{Model: gorm.Model{ID: 1}, Code: "1"},
-		{Model: gorm.Model{ID: 2}, Code: "2"},
-		{Model: gorm.Model{ID: 3}, Code: "3"},
+		{Model: aorm.Model{ID: 1}, Code: "1"},
+		{Model: aorm.Model{ID: 2}, Code: "2"},
+		{Model: aorm.Model{ID: 3}, Code: "3"},
 	}
 
 	collectionSorting := sorting.SortableCollection{PrimaryKeys: []string{"3", "1", "2"}}
@@ -73,10 +73,10 @@ func TestSortPointer(t *testing.T) {
 
 func TestSortWithSomePrimaryKeys(t *testing.T) {
 	colorVariations := &[]ColorVariation{
-		{Model: gorm.Model{ID: 1}, Code: "1"},
-		{Model: gorm.Model{ID: 2}, Code: "2"},
-		{Model: gorm.Model{ID: 3}, Code: "3"},
-		{Model: gorm.Model{ID: 4}, Code: "4"},
+		{Model: aorm.Model{ID: 1}, Code: "1"},
+		{Model: aorm.Model{ID: 2}, Code: "2"},
+		{Model: aorm.Model{ID: 3}, Code: "3"},
+		{Model: aorm.Model{ID: 4}, Code: "4"},
 	}
 
 	collectionSorting := sorting.SortableCollection{PrimaryKeys: []string{"3", "1"}}
@@ -89,10 +89,10 @@ func TestSortWithSomePrimaryKeys(t *testing.T) {
 
 func TestSortPointerWithSomePrimaryKeys(t *testing.T) {
 	colorVariations := &[]*ColorVariation{
-		{Model: gorm.Model{ID: 1}, Code: "1"},
-		{Model: gorm.Model{ID: 2}, Code: "2"},
-		{Model: gorm.Model{ID: 3}, Code: "3"},
-		{Model: gorm.Model{ID: 4}, Code: "4"},
+		{Model: aorm.Model{ID: 1}, Code: "1"},
+		{Model: aorm.Model{ID: 2}, Code: "2"},
+		{Model: aorm.Model{ID: 3}, Code: "3"},
+		{Model: aorm.Model{ID: 4}, Code: "4"},
 	}
 
 	collectionSorting := sorting.SortableCollection{PrimaryKeys: []string{"3", "1"}}

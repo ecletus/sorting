@@ -1,6 +1,6 @@
 # Sorting
 
-Sorting is used to add reordering abilities to [GORM-backend](https://github.com/jinzhu/gorm) models and sort collections
+Sorting is used to add reordering abilities to [GORM-backend](https://github.com/moisespsena-go/aorm) models and sort collections
 
 [![GoDoc](https://godoc.org/github.com/aghape/sorting?status.svg)](https://godoc.org/github.com/aghape/sorting)
 

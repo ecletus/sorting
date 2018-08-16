@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/l10n"
 	"github.com/aghape/sorting"
 )
 
 type Brand struct {
-	gorm.Model
+	aorm.Model
 	l10n.Locale
 	sorting.Sorting
 	Name string
@@ -30,13 +30,13 @@ func prepareBrand() {
 	}
 }
 
-func getBrand(db *gorm.DB, name string) *Brand {
+func getBrand(db *aorm.DB, name string) *Brand {
 	var brand Brand
 	db.First(&brand, "name = ?", name)
 	return &brand
 }
 
-func checkBrandPosition(db *gorm.DB, t *testing.T, description string) {
+func checkBrandPosition(db *aorm.DB, t *testing.T, description string) {
 	var brands []Brand
 	if err := db.Set("l10n:mode", "locale").Find(&brands).Error; err != nil {
 		t.Errorf("no error should happen when find brands, but got %v", err)

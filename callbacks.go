@@ -5,11 +5,11 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/l10n"
 )
 
-func initalizePosition(scope *gorm.Scope) {
+func initalizePosition(scope *aorm.Scope) {
 	if !scope.HasError() {
 		if _, ok := scope.Value.(sortingInterface); ok {
 			var lastPosition int
@@ -19,7 +19,7 @@ func initalizePosition(scope *gorm.Scope) {
 	}
 }
 
-func reorderPositions(scope *gorm.Scope) {
+func reorderPositions(scope *aorm.Scope) {
 	if !scope.HasError() {
 		if _, ok := scope.Value.(sortingInterface); ok {
 			table := scope.TableName()
@@ -68,7 +68,7 @@ func modelValue(value interface{}) interface{} {
 	return nil
 }
 
-func beforeQuery(scope *gorm.Scope) {
+func beforeQuery(scope *aorm.Scope) {
 	modelValue := modelValue(scope.Value)
 	if _, ok := modelValue.(sortingDescInterface); ok {
 		scope.Search.Order("position desc")
@@ -78,7 +78,7 @@ func beforeQuery(scope *gorm.Scope) {
 }
 
 // RegisterCallbacks register callbacks into gorm db instance
-func RegisterCallbacks(db *gorm.DB) {
+func RegisterCallbacks(db *aorm.DB) {
 	db.Callback().Create().Before("gorm:create").Register("sorting:initalize_position", initalizePosition)
 	db.Callback().Delete().After("gorm:after_delete").Register("sorting:reorder_positions", reorderPositions)
 	db.Callback().Query().Before("gorm:query").Register("sorting:sort_by_position", beforeQuery)

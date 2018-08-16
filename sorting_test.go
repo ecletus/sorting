@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/l10n"
 	"github.com/aghape/publish"
 	"github.com/aghape/aghape/test/utils"
@@ -13,12 +13,12 @@ import (
 )
 
 type User struct {
-	gorm.Model
+	aorm.Model
 	Name string
 	sorting.Sorting
 }
 
-var db *gorm.DB
+var db *aorm.DB
 var pb *publish.Publish
 
 func init() {

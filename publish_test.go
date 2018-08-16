@@ -5,13 +5,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/publish"
 	"github.com/aghape/sorting"
 )
 
 type Product struct {
-	gorm.Model
+	aorm.Model
 	Name string
 	sorting.Sorting
 	publish.Status
@@ -32,7 +32,7 @@ func getProduct(name string) *Product {
 	return &product
 }
 
-func checkProductPositionInDB(db *gorm.DB, names ...string) bool {
+func checkProductPositionInDB(db *aorm.DB, names ...string) bool {
 	var products []Product
 	var positions []string
 

@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/admin"
 	"github.com/aghape/aghape"
 	"github.com/aghape/aghape/resource"
@@ -48,7 +48,7 @@ func (sortableCollection SortableCollection) Sort(results interface{}) error {
 		return errors.New("invalid type")
 	}
 
-	scope := gorm.Scope{Value: values.Interface()}
+	scope := aorm.Scope{Value: values.Interface()}
 	if primaryField := scope.PrimaryField(); primaryField != nil {
 		var (
 			primaryFieldName = primaryField.Name
@@ -150,7 +150,7 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 					fieldValue := reflect.Indirect(reflectValue.FieldByName(name))
 					if fieldValue.Kind() == reflect.Slice {
 						for i := 0; i < fieldValue.Len(); i++ {
-							scope := gorm.Scope{Value: fieldValue.Index(i).Interface()}
+							scope := aorm.Scope{Value: fieldValue.Index(i).Interface()}
 							primaryValues = append(primaryValues, fmt.Sprint(scope.PrimaryKeyValue()))
 						}
 						reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryValues)

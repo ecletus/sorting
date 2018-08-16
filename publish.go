@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jinzhu/gorm"
+	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/publish"
 )
 
@@ -15,7 +15,7 @@ type changedSortingPublishEvent struct {
 	PrimaryKeys []string
 }
 
-func (e changedSortingPublishEvent) Publish(db *gorm.DB, event publish.PublishEventInterface) (err error) {
+func (e changedSortingPublishEvent) Publish(db *aorm.DB, event publish.PublishEventInterface) (err error) {
 	if event, ok := event.(*publish.PublishEvent); ok {
 		scope := db.NewScope("")
 		if err = json.Unmarshal([]byte(event.Argument), &e); err == nil {
@@ -33,7 +33,7 @@ func (e changedSortingPublishEvent) Publish(db *gorm.DB, event publish.PublishEv
 	return errors.New("invalid publish event")
 }
 
-func (e changedSortingPublishEvent) Discard(db *gorm.DB, event publish.PublishEventInterface) (err error) {
+func (e changedSortingPublishEvent) Discard(db *aorm.DB, event publish.PublishEventInterface) (err error) {
 	if event, ok := event.(*publish.PublishEvent); ok {
 		scope := db.NewScope("")
 		if err = json.Unmarshal([]byte(event.Argument), &e); err == nil {
