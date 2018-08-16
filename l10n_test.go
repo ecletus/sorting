@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/jinzhu/gorm"
-	"github.com/qor/l10n"
-	"github.com/qor/sorting"
+	"github.com/aghape/l10n"
+	"github.com/aghape/sorting"
 )
 
 type Brand struct {

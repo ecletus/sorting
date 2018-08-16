@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/jinzhu/gorm"
-	"github.com/qor/l10n"
-	"github.com/qor/publish"
-	"github.com/qor/qor/test/utils"
-	"github.com/qor/sorting"
+	"github.com/aghape/l10n"
+	"github.com/aghape/publish"
+	"github.com/aghape/aghape/test/utils"
+	"github.com/aghape/sorting"
 )
 
 type User struct {

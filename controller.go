@@ -7,10 +7,10 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/qor/admin"
-	"github.com/qor/qor"
-	"github.com/qor/qor/resource"
-	"github.com/qor/roles"
+	"github.com/aghape/admin"
+	"github.com/aghape/aghape"
+	"github.com/aghape/aghape/resource"
+	"github.com/aghape/roles"
 )
 
 func updatePosition(context *admin.Context) {
@@ -44,7 +44,6 @@ func updatePosition(context *admin.Context) {
 // ConfigureQorResource configure sorting for qor admin
 func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 	if res, ok := res.(*admin.Resource); ok {
-		Admin := res.GetAdmin()
 		res.UseTheme("sorting")
 
 		if res.Permission == nil {
@@ -97,7 +96,6 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 		res.EditAttrs(res.EditAttrs(), "-Position")
 		res.ShowAttrs(res.ShowAttrs(), "-Position", false)
 
-		router := Admin.GetRouter()
-		router.Post(fmt.Sprintf("/%v/%v/sorting/update_position", res.ToParam(), res.ParamIDName()), updatePosition)
+		res.ObjectRouter.Post("/sorting/update_position", updatePosition)
 	}
 }

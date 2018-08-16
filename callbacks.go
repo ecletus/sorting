@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
-	"github.com/qor/l10n"
+	"github.com/aghape/l10n"
 )
 
 func initalizePosition(scope *gorm.Scope) {

@@ -9,11 +9,11 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
-	"github.com/qor/admin"
-	"github.com/qor/qor"
-	"github.com/qor/qor/resource"
-	"github.com/qor/qor/utils"
-	"github.com/qor/roles"
+	"github.com/aghape/admin"
+	"github.com/aghape/aghape"
+	"github.com/aghape/aghape/resource"
+	"github.com/aghape/aghape/utils"
+	"github.com/aghape/roles"
 )
 
 type SortableCollection struct {
@@ -110,11 +110,11 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 				}
 
 				setter := sortableMeta.GetSetter()
-				sortableMeta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) {
+				sortableMeta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) error {
 					primaryKeys := utils.ToArray(metaValue.Value)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryKeys)
-					setter(record, metaValue, context)
+					return setter(record, metaValue, context)
 				})
 
 				valuer := sortableMeta.GetValuer()
@@ -125,7 +125,7 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 					return results
 				})
 
-				meta.SetSetter(func(interface{}, *resource.MetaValue, *qor.Context) {})
+				meta.SetSetter(func(interface{}, *resource.MetaValue, *qor.Context) error { return nil })
 				meta.SetPermission(roles.Deny(roles.CRUD, roles.Anyone))
 			}
 
@@ -159,10 +159,11 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 					return nil
 				})
 
-				meta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) {
+				meta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) error {
 					primaryKeys := utils.ToArray(metaValue.Value)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
-					reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryKeys)
+					err := reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryKeys)
+					return err
 				})
 
 				meta.SetPermission(roles.Deny(roles.CRUD, roles.Anyone))

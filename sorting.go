@@ -6,9 +6,7 @@ import (
 	"reflect"
 
 	"github.com/jinzhu/gorm"
-	"github.com/qor/admin"
-	"github.com/qor/publish"
-	"github.com/qor/qor"
+	"github.com/aghape/publish"
 )
 
 type sortingInterface interface {
@@ -44,12 +42,6 @@ type SortingDESC struct {
 
 // SortingDesc make your model sorting desc by default
 func (SortingDESC) SortingDesc() {}
-
-func init() {
-	qor.IfDev(func() {
-		admin.RegisterViewPath("github.com/qor/sorting/views")
-	})
-}
 
 func newModel(value interface{}) interface{} {
 	return reflect.New(reflect.Indirect(reflect.ValueOf(value)).Type()).Interface()
