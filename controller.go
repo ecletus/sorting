@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	"github.com/aghape/admin"
-	"github.com/aghape/aghape"
-	"github.com/aghape/aghape/resource"
+	"github.com/aghape/core"
+	"github.com/aghape/core/resource"
 	"github.com/aghape/roles"
 )
 
@@ -60,7 +60,7 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 		if res.GetMeta("Position") == nil {
 			res.Meta(&admin.Meta{
 				Name: "Position",
-				Valuer: func(value interface{}, ctx *qor.Context) interface{} {
+				Valuer: func(value interface{}, ctx *core.Context) interface{} {
 					db := ctx.GetDB()
 					var count int
 					var pos = value.(sortingInterface).GetPosition()

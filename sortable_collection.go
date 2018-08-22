@@ -10,9 +10,9 @@ import (
 
 	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/admin"
-	"github.com/aghape/aghape"
-	"github.com/aghape/aghape/resource"
-	"github.com/aghape/aghape/utils"
+	"github.com/aghape/core"
+	"github.com/aghape/core/resource"
+	"github.com/aghape/core/utils"
 	"github.com/aghape/roles"
 )
 
@@ -110,7 +110,7 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 				}
 
 				setter := sortableMeta.GetSetter()
-				sortableMeta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) error {
+				sortableMeta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *core.Context) error {
 					primaryKeys := utils.ToArray(metaValue.Value)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryKeys)
@@ -118,14 +118,14 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 				})
 
 				valuer := sortableMeta.GetValuer()
-				sortableMeta.SetValuer(func(record interface{}, context *qor.Context) interface{} {
+				sortableMeta.SetValuer(func(record interface{}, context *core.Context) interface{} {
 					results := valuer(record, context)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					reflectValue.FieldByName(meta.GetName()).Interface().(SortableCollection).Sort(results)
 					return results
 				})
 
-				meta.SetSetter(func(interface{}, *resource.MetaValue, *qor.Context) error { return nil })
+				meta.SetSetter(func(interface{}, *resource.MetaValue, *core.Context) error { return nil })
 				meta.SetPermission(roles.Deny(roles.CRUD, roles.Anyone))
 			}
 
@@ -137,14 +137,14 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 				}
 
 				valuer := sortableMeta.GetValuer()
-				sortableMeta.SetValuer(func(record interface{}, context *qor.Context) interface{} {
+				sortableMeta.SetValuer(func(record interface{}, context *core.Context) interface{} {
 					results := valuer(record, context)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					reflectValue.FieldByName(meta.GetName()).Interface().(SortableCollection).Sort(results)
 					return results
 				})
 
-				res.AddProcessor(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+				res.AddProcessor(func(record interface{}, metaValues *resource.MetaValues, context *core.Context) error {
 					var primaryValues []string
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					fieldValue := reflect.Indirect(reflectValue.FieldByName(name))
@@ -159,7 +159,7 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 					return nil
 				})
 
-				meta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *qor.Context) error {
+				meta.SetSetter(func(record interface{}, metaValue *resource.MetaValue, context *core.Context) error {
 					primaryKeys := utils.ToArray(metaValue.Value)
 					reflectValue := reflect.Indirect(reflect.ValueOf(record))
 					err := reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryKeys)

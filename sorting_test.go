@@ -8,7 +8,7 @@ import (
 	"github.com/moisespsena-go/aorm"
 	"github.com/aghape/l10n"
 	"github.com/aghape/publish"
-	"github.com/aghape/aghape/test/utils"
+	"github.com/aghape/core/test/utils"
 	"github.com/aghape/sorting"
 )
 
