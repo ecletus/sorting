@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/l10n"
-	"github.com/aghape/publish"
-	"github.com/aghape/core/test/utils"
-	"github.com/aghape/sorting"
+	"github.com/ecletus/l10n"
+	"github.com/ecletus/publish"
+	"github.com/ecletus/core/test/utils"
+	"github.com/ecletus/sorting"
 )
 
 type User struct {

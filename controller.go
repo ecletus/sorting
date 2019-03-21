@@ -7,10 +7,10 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/aghape/admin"
-	"github.com/aghape/core"
-	"github.com/aghape/core/resource"
-	"github.com/aghape/roles"
+	"github.com/ecletus/admin"
+	"github.com/ecletus/core"
+	"github.com/ecletus/core/resource"
+	"github.com/ecletus/roles"
 )
 
 func updatePosition(context *admin.Context) {

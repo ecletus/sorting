@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/l10n"
-	"github.com/aghape/sorting"
+	"github.com/ecletus/l10n"
+	"github.com/ecletus/sorting"
 )
 
 type Brand struct {

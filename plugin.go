@@ -1,8 +1,8 @@
 package sorting
 
 import (
-	"github.com/aghape/db"
-	"github.com/aghape/plug"
+	"github.com/ecletus/db"
+	"github.com/ecletus/plug"
 )
 
 type Plugin struct {

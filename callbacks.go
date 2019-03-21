@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/l10n"
+	"github.com/ecletus/l10n"
 )
 
 func initalizePosition(scope *aorm.Scope) {

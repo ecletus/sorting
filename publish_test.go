@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/publish"
-	"github.com/aghape/sorting"
+	"github.com/ecletus/publish"
+	"github.com/ecletus/sorting"
 )
 
 type Product struct {

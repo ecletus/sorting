@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/publish"
+	"github.com/ecletus/publish"
 )
 
 type changedSortingPublishEvent struct {

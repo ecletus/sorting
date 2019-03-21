@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/sorting"
+	"github.com/ecletus/sorting"
 )
 
 type ColorVariation struct {

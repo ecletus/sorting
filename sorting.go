@@ -6,7 +6,7 @@ import (
 	"reflect"
 
 	"github.com/moisespsena-go/aorm"
-	"github.com/aghape/publish"
+	"github.com/ecletus/publish"
 )
 
 type sortingInterface interface {
