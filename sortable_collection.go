@@ -48,8 +48,7 @@ func (sortableCollection SortableCollection) Sort(results interface{}) error {
 		return errors.New("invalid type")
 	}
 
-	scope := aorm.Scope{Value: values.Interface()}
-	if primaryField := scope.PrimaryField(); primaryField != nil {
+	if primaryField := aorm.StructOf(values.Interface()).PrimaryField(); primaryField != nil {
 		var (
 			primaryFieldName = primaryField.Name
 			indirectValues   = reflect.Indirect(values)
@@ -150,8 +149,7 @@ func (sortableCollection *SortableCollection) ConfigureQorMeta(metaor resource.M
 					fieldValue := reflect.Indirect(reflectValue.FieldByName(name))
 					if fieldValue.Kind() == reflect.Slice {
 						for i := 0; i < fieldValue.Len(); i++ {
-							scope := aorm.Scope{Value: fieldValue.Index(i).Interface()}
-							primaryValues = append(primaryValues, fmt.Sprint(scope.PrimaryKeyValue()))
+							primaryValues = append(primaryValues, aorm.IdOf(fieldValue.Index(i).Interface()).String())
 						}
 						reflectValue.FieldByName(meta.GetName()).Addr().Interface().(*SortableCollection).Scan(primaryValues)
 					}

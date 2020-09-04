@@ -115,7 +115,7 @@ func createPublishEvent(db *aorm.DB, value interface{}) (err error) {
 				"argument": string(result),
 			}).Attrs(map[string]interface{}{
 				"publish_status": publish.DIRTY,
-				"description":    "Changed sort order for " + scope.GetModelStruct().ModelType.Name(),
+				"description":    "Changed sort order for " + scope.Struct().Type.Name(),
 			}).FirstOrCreate(&publish.PublishEvent{}).Error
 		}
 	}

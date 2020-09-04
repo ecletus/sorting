@@ -20,12 +20,12 @@ func updatePosition(context *admin.Context) {
 				var count int
 				if _, ok := result.(sortingDescInterface); ok {
 					var result = context.Resource.NewStruct(context.Site)
-					context.GetDB().Set("l10n:mode", "locale").Order("position DESC", true).First(result)
+					context.DB().Set("l10n:mode", "locale").Order("position DESC", true).First(result)
 					count = result.(sortingInterface).GetPosition()
 					pos = count - pos + 1
 				}
 
-				if MoveTo(context.GetDB(), position, pos) == nil {
+				if MoveTo(context.DB(), position, pos) == nil {
 					var pos = position.GetPosition()
 					if _, ok := result.(sortingDescInterface); ok {
 						pos = count - pos + 1
@@ -41,8 +41,8 @@ func updatePosition(context *admin.Context) {
 	context.Writer.Write([]byte("Error"))
 }
 
-// ConfigureQorResource configure sorting for qor admin
-func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
+// ConfigureResource configure sorting for qor admin
+func (s *Sorting) ConfigureResource(res resource.Resourcer) {
 	if res, ok := res.(*admin.Resource); ok {
 		res.UseTheme("sorting")
 
@@ -52,16 +52,16 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 
 		role := res.Permission.Role
 		if _, ok := role.Get("sorting_mode"); !ok {
-			role.Register("sorting_mode", func(req *http.Request, currentUser interface{}) bool {
+			role.Register(roles.NewDescriptor("sorting_mode", func(req *http.Request, currentUser interface{}) bool {
 				return req.URL.Query().Get("sorting") != ""
-			})
+			}))
 		}
 
 		if res.GetMeta("Position") == nil {
 			res.Meta(&admin.Meta{
 				Name: "Position",
 				Valuer: func(value interface{}, ctx *core.Context) interface{} {
-					db := ctx.GetDB()
+					db := ctx.DB()
 					var count int
 					var pos = value.(sortingInterface).GetPosition()
 
@@ -77,7 +77,7 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 						pos = count - pos + 1
 					}
 
-					primaryKey := ctx.GetDB().NewScope(value).PrimaryKeyValue()
+					primaryKey := ctx.DB().NewScope(value).PrimaryKey()
 					url := path.Join(ctx.Request.URL.Path, fmt.Sprintf("%v", primaryKey), "sorting/update_position")
 					return template.HTML(fmt.Sprintf("<input type=\"number\" class=\"qor-sorting__position\" value=\"%v\" data-sorting-url=\"%v\" data-position=\"%v\">", pos, url, pos))
 				},
@@ -96,6 +96,6 @@ func (s *Sorting) ConfigureQorResource(res resource.Resourcer) {
 		res.EditAttrs(res.EditAttrs(), "-Position")
 		res.ShowAttrs(res.ShowAttrs(), "-Position", false)
 
-		res.ObjectRouter.Post("/sorting/update_position", updatePosition)
+		res.ItemRouter.Post("/sorting/update_position", updatePosition)
 	}
 }
